@@ -4,9 +4,6 @@
 #include "secrets.h"
 
 
-//Your Domain name with URL path or IP address with path
-const char* serverName = "http://192.168.2.189:8080/api/v1/1oacapym0nf8c5h7u6n1/telemetry";
-
 // the following variables are unsigned longs because the time, measured in
 // milliseconds, will quickly become a bigger number than can be stored in an int.
 unsigned long lastTime = 0;
