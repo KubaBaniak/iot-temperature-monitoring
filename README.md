@@ -71,6 +71,17 @@ cd project-root
    ```
 3. Ensure ThingsBoard is running at `http://<raspberry-pi-ip>:8080`.
 
+#### Configure Python Environment
+1. Create a virtual environment to isolate dependencies:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+2. Upgrade `pip`:
+   ```bash
+   pip install --upgrade pip
+   ```
+
 #### Configure Environment Variables
 1. Create a `.env` file in the `server/` directory based on `.example.env`:
    ```bash
