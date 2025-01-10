@@ -2,6 +2,7 @@ import pandas as pd
 import random
 import numpy as np
 
+
 def generate_december_data(file_path: str) -> None:
     timestamps = pd.date_range(start="2024-12-01 00:00:00", end="2024-12-07 23:59:59", freq="10min")
     temperatures = []
@@ -15,6 +16,8 @@ def generate_december_data(file_path: str) -> None:
 
     temperatures = pd.Series(temperatures).rolling(window=6, min_periods=1, center=True).mean()
 
+    temperatures = temperatures.round(2)
+
     for _ in range(100):
         index_to_null = random.randint(0, len(temperatures) - 1)
         temperatures.iloc[index_to_null] = None
@@ -26,6 +29,7 @@ def generate_december_data(file_path: str) -> None:
 
     december_data.to_csv(file_path, index=False)
     print(f"December data generated and saved to {file_path}")
+
 
 def load_test_data(file_path: str) -> pd.DataFrame:
     try:

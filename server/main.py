@@ -9,7 +9,7 @@ load_dotenv()
 
 def main():
     mode = os.getenv("MODE", "dev")
-    test_file = "data/test_data.csv"
+    test_file = "server/data/test_data.csv"
 
     print(f"Running in {mode.upper()} mode...")
 
