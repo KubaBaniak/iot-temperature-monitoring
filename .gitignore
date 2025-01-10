@@ -2,3 +2,4 @@
 .idea
 server/.env
 arduino/secrets.h
+server/data/test_data.csv
