@@ -2,22 +2,24 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiClient.h>
 #include "secrets.h"
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
 
+#define DHTPIN 5
+#define DHTTYPE DHT11
 
-// the following variables are unsigned longs because the time, measured in
-// milliseconds, will quickly become a bigger number than can be stored in an int.
+DHT dht(DHTPIN, DHTTYPE);
+
 unsigned long lastTime = 0;
-// Timer set to 10 minutes (600000)
-//unsigned long timerDelay = 600000;
-// Set timer to 5 seconds (5000)
 unsigned long timerDelay = 600000;
 
 void setup() {
   Serial.begin(115200);
-
+  
   WiFi.begin(ssid, password);
+  dht.begin();
   Serial.println("Connecting");
-  while(WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
@@ -31,33 +33,36 @@ void setup() {
 
 void loop() {
   if ((millis() - lastTime) > timerDelay) {
-    if(WiFi.status()== WL_CONNECTED){
+    if (WiFi.status() == WL_CONNECTED) {
       WiFiClient client;
       HTTPClient http;
       
-      http.begin(client, serverName);
-  
-      // If you need Node-RED/server authentication, insert user and password below
-      //http.setAuthorization("REPLACE_WITH_SERVER_USERNAME", "REPLACE_WITH_SERVER_PASSWORD");
+      float temperature = dht.readTemperature();
+      float humidity = dht.readHumidity();
 
-      
-      // If you need an HTTP request with a content type: application/json, use the following:
-      http.addHeader("Content-Type", "application/json");
-      // Generowanie losowej temperatury w zakresie od 21 do 24
-      float randomTemperature = 21 + (random(0, 301) / 100.0); // Losowa wartość w zakresie 21.00 - 24.00
-
-      // Tworzenie obiektu JSON
-      String jsonPayload = "{\"temperature\": " + String(randomTemperature, 2) + "}";
-      int httpResponseCode = http.POST(jsonPayload);     
-
-      Serial.print("HTTP Response code: ");
-      Serial.println(httpResponseCode);
+      if (!isnan(temperature) && !isnan(humidity)) {
+        Serial.println("Temperature: " + String(temperature));
+        Serial.println("Humidity: " + String(humidity));
         
-      http.end();
-    }
-    else {
+        http.begin(client, serverName);
+
+        http.addHeader("Content-Type", "application/json");
+
+        String jsonPayload = "{\"temperature\": " + String(temperature, 2) + ", \"humidity\": " + String(humidity, 2) + "}";
+        int httpResponseCode = http.POST(jsonPayload);
+
+        Serial.print("HTTP Response code: ");
+        Serial.println(httpResponseCode);
+
+        http.end();
+      } else {
+        Serial.println("Failed to read from DHT sensor. Skipping data send.");
+      }
+    } else {
       Serial.println("WiFi Disconnected");
     }
     lastTime = millis();
   }
 }
+
+
