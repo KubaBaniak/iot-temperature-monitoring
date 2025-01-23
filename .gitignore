@@ -1,5 +1,5 @@
 .venv
 .idea
 server/.env
-arduino/secrets.h
+esp8266_temperature_sender/secrets.h
 server/data/test_data.csv

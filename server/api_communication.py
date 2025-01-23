@@ -19,9 +19,9 @@ def get_data() -> pd.DataFrame:
     start_ts = int(os.getenv("START_TIMESTAMP", default_start_ts))
     end_ts = int(os.getenv("END_TIMESTAMP", default_end_ts))
 
-    query = f"keys=temperature&startTs={start_ts}&endTs={end_ts}"
+    query = f"keys=temperature&startTs={start_ts}&endTs={end_ts}&limit=1500"
     url = f"http://{hostname}:{port}/api/plugins/telemetry/{entity_type}/{device_id}/values/timeseries?{query}"
-    headers = {'Content-Type': 'application/json', 'X-Authorization': f"Bearer {auth_token}"}
+    headers = {'Content-Type': 'application/json', 'X-Authorization': f"{auth_token}"}
 
     response = requests.get(url, headers=headers)
     try:

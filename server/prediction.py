@@ -13,7 +13,7 @@ def predict_temperature_tbats(data: pd.DataFrame, hours: int = 3) -> list:
 
 def plot_temperature_and_prediction_tbats(data: pd.DataFrame, predictions: list, hours: int = 3) -> None:
     steps = hours * 6
-    last_24h_data = data.tail(144)
+    last_24h_data = data.tail(6*24*4)
     prediction_timestamps = pd.date_range(start=last_24h_data['timestamp'].iloc[-1], periods=steps + 1, freq="10min")[1:]
 
     plt.figure(figsize=(12, 6))

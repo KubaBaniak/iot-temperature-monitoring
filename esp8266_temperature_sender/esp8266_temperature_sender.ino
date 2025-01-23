@@ -27,8 +27,9 @@ void setup() {
   Serial.print("Connected to WiFi network with IP Address: ");
   Serial.println(WiFi.localIP());
  
-  Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
-  randomSeed(analogRead(0));
+  Serial.print("Timer set to ");
+  Serial.print(timerDelay / 1000);
+  Serial.println(" seconds (timerDelay variable), it will take this time before publishing the first reading.");
 }
 
 void loop() {

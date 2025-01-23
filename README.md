@@ -116,7 +116,7 @@ For more information, refer to the `.example.env` template.
 1. **Create a Secrets File**:
    - Copy the `secrets_example.h` file to `secrets.h`:
      ```bash
-     cp arduino/secrets_example.h arduino/secrets.h
+     cp esp8266_temperature_sender/secrets_example.h esp8266_temperature_sender/secrets.h
      ```
 
 2. **Edit the Secrets File**:
